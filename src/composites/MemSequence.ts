@@ -1,30 +1,31 @@
 import Composite from '../core/Composite';
-import {FAILURE, RUNNING} from '../constants';
+import {SUCCESS, RUNNING, BaseNodeData} from '../constants';
+import BaseNode from '../core/BaseNode';
 
 /**
- * MemPriority is similar to Priority node, but when a child returns a
- * `RUNNING` state, its index is recorded and in the next tick the,
- * MemPriority calls the child recorded directly, without calling previous
+ * MemSequence is similar to Sequence node, but when a child returns a
+ * `RUNNING` state, its index is recorded and in the next tick the
+ * MemPriority call the child recorded directly, without calling previous
  * children again.
  *
  * @module b3
- * @class MemPriority
+ * @class MemSequence
  * @extends Composite
  **/
 
-export default class MemPriority extends Composite {
+export default class MemSequence extends Composite {
 
   /**
-   * Creates an instance of MemPriority.
+   * Creates an instance of MemSequence.
    * @param {Object} params 
    * @param {Array} params.children 
-   * @memberof MemPriority
+   * @memberof MemSequence
    */
-  constructor({children = []} = {}){
-    super({
-      children,
-      name: 'MemPriority',
-    });
+  constructor(children:Array<BaseNode> = []){
+    let data:BaseNodeData = {
+      name: 'MemSequence'
+    }
+    super(data, children);
   }
 
   /**
@@ -45,17 +46,16 @@ export default class MemPriority extends Composite {
   tick(tick) {
     var child = tick.blackboard.get('runningChild', tick.tree.id, this.id);
     for (var i=child; i<this.children.length; i++) {
-      var status = this.children[i]._execute(tick);
+      var status:any = this.children[i]._execute(tick);
 
-      if (status !== FAILURE) {
+      if (status !== SUCCESS) {
         if (status === RUNNING) {
           tick.blackboard.set('runningChild', i, tick.tree.id, this.id);
         }
-
         return status;
       }
     }
 
-    return FAILURE;
+    return SUCCESS;
   }
 };

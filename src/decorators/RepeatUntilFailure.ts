@@ -1,5 +1,6 @@
 import Decorator from '../core/Decorator';
-import {SUCCESS, ERROR} from '../constants';
+import {SUCCESS, ERROR, BaseNodeData} from '../constants';
+import BaseNode from '../core/BaseNode';
 
 /**
  * RepeatUntilFailure is a decorator that repeats the tick signal until the
@@ -12,6 +13,7 @@ import {SUCCESS, ERROR} from '../constants';
  **/
 
 export default class RepeatUntilFailure extends Decorator {
+  public maxLoop: number;
 
   /**
    * Creates an instance of RepeatUntilFailure.
@@ -24,13 +26,13 @@ export default class RepeatUntilFailure extends Decorator {
    * @param {BaseNode} params.child The child node.
    * @memberof RepeatUntilFailure
    **/
-  constructor({maxLoop = -1, child = null} = {}) {
-    super({
-      child,
+  constructor(maxLoop = -1, child?:BaseNode) {
+    let data:BaseNodeData = {
       name: 'RepeatUntilFailure',
       title: 'Repeat Until Failure',
       properties: {maxLoop: -1},
-    });
+    }
+    super(data, child);
 
     this.maxLoop = maxLoop;
   }
@@ -59,6 +61,7 @@ export default class RepeatUntilFailure extends Decorator {
     var status = ERROR;
 
     while (this.maxLoop < 0 || i < this.maxLoop) {
+      // @ts-ignore
       status = this.child._execute(tick);
 
       if (status == SUCCESS) {

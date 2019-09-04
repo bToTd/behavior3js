@@ -1,5 +1,5 @@
 import BaseNode from './BaseNode';
-import {DECORATOR} from '../constants';
+import {DECORATOR, BaseNodeData} from '../constants';
 
 /**
  * Decorator is the base class for all decorator nodes. Thus, if you want to
@@ -42,6 +42,7 @@ import {DECORATOR} from '../constants';
  **/
 
 export default class Decorator extends BaseNode {
+  public child: BaseNode;
 
   /**
    * Creates an instance of Decorator.
@@ -51,13 +52,9 @@ export default class Decorator extends BaseNode {
    * @param {Object} options.properties 
    * @memberof Decorator
    */
-  constructor({child = null, name = 'Decorator', title, properties} = {}) {
-    super({
-      category: DECORATOR,
-      name,
-      title,
-      properties,
-    });
+  constructor(data:BaseNodeData, child?:BaseNode) {
+    data.category = DECORATOR
+    super(data);
     this.child = child;
   }
 

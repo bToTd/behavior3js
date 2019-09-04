@@ -1,5 +1,5 @@
-import BaseNode from '../core/BaseNode';
-import {COMPOSITE} from '../constants';
+import BaseNode from './BaseNode';
+import {COMPOSITE, BaseNodeData} from '../constants';
 
 /**
  * Composite is the base class for all composite nodes. Thus, if you want to
@@ -42,6 +42,7 @@ import {COMPOSITE} from '../constants';
  **/
 
 export default class Composite extends BaseNode {
+  public children: Array<BaseNode>;
 
   /**
    * Creates an instance of Composite.
@@ -52,13 +53,9 @@ export default class Composite extends BaseNode {
    * @param {Object} options.properties 
    * @memberof Composite
    */
-  constructor({children = [], name = 'Composite', title, properties} = {}) {
-    super({
-      category: COMPOSITE,
-      name,
-      title,
-      properties,
-    });
+  constructor(data:BaseNodeData, children?:Array<BaseNode>) {
+    data.category = COMPOSITE;
+    super(data);
     this.children = (children).slice(0);
   }
 

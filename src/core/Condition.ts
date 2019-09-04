@@ -1,5 +1,5 @@
 import BaseNode from './BaseNode';
-import {CONDITION} from '../constants';
+import {CONDITION, BaseNodeData} from '../constants';
 
 /**
  * Condition is the base class for all condition nodes. Thus, if you want to
@@ -19,13 +19,9 @@ export default class Condition extends BaseNode {
    * @param {Object} options.properties
    * @memberof Condition
    */
-  constructor({name = 'Condition', title, properties} = {}) {
-    super({
-      category: CONDITION,
-      name,
-      title,
-      properties,
-    });
+  constructor(data:BaseNodeData) {
+    data.category = CONDITION;
+    super(data);
   }
 
 };

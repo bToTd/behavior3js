@@ -1,5 +1,6 @@
 import Composite from '../core/Composite';
-import {SUCCESS} from '../constants';
+import {SUCCESS, BaseNodeData} from '../constants';
+import BaseNode from '../core/BaseNode';
 
 /**
  * The Sequence node ticks its children sequentially until one of them
@@ -19,11 +20,11 @@ export default class Sequence extends Composite {
    * @param {Array} params.children 
    * @memberof Sequence
    */
-  constructor({children = []} = {}){
-    super({
-      name: 'Sequence',
-      children
-    });
+  constructor(children:Array<BaseNode> = []){
+    let data:BaseNodeData = {
+      name: 'Sequence'
+    }
+    super(data, children);
   }
 
   /**
@@ -34,7 +35,7 @@ export default class Sequence extends Composite {
    **/
   tick(tick) {
     for (var i=0; i<this.children.length; i++) {
-      var status = this.children[i]._execute(tick);
+      var status:any = this.children[i]._execute(tick);
 
       if (status !== SUCCESS) {
         return status;

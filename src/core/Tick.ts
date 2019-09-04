@@ -17,6 +17,12 @@
  **/
 
 export default class Tick {
+  public tree: any;
+  public debug: any;
+  public target: any;
+  public blackboard: any;
+  private _openNodes: any[];
+  private _nodeCount: number;
 
   /**
    * Initialization method.

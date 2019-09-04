@@ -1,5 +1,6 @@
 import Decorator from '../core/Decorator';
-import {FAILURE, SUCCESS, ERROR} from '../constants';
+import {FAILURE, SUCCESS, ERROR, BaseNodeData} from '../constants';
+import BaseNode from '../core/BaseNode';
 
 /**
  * The Inverter decorator inverts the result of the child, returning `SUCCESS`
@@ -18,11 +19,11 @@ export default class Inverter extends Decorator {
    * @param {BaseNode} params.child The child node.
    * @memberof Inverter
    */
-  constructor({child = null} = {}){
-    super({
-      child,
-      name: 'Inverter',
-    });
+  constructor(child?:BaseNode){
+    let data:BaseNodeData = {
+      name: 'Inverter'
+    }
+    super(data, child);
   }
 
   /**
@@ -36,7 +37,7 @@ export default class Inverter extends Decorator {
       return ERROR;
     }
 
-    var status = this.child._execute(tick);
+    var status:any = this.child._execute(tick);
 
     if (status == SUCCESS) {
       status = FAILURE;

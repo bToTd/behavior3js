@@ -1,5 +1,6 @@
 import Decorator from '../core/Decorator';
-import {SUCCESS, ERROR, FAILURE} from '../constants';
+import {SUCCESS, ERROR, FAILURE, BaseNodeData} from '../constants';
+import BaseNode from '../core/BaseNode';
 
 /**
  * Repeater is a decorator that repeats the tick signal until the child node
@@ -12,6 +13,7 @@ import {SUCCESS, ERROR, FAILURE} from '../constants';
  **/
 
 export default class Repeater extends Decorator {
+  public maxLoop: number;
 
   /**
    * Creates an instance of MaxTime.
@@ -24,13 +26,13 @@ export default class Repeater extends Decorator {
    * @param {BaseNode} params.child The child node.
    * @memberof Repeater
    **/
-  constructor({maxLoop = -1, child = null} = {}) {
-    super({
-      child,
+  constructor(maxLoop:number = -1, child?:BaseNode) {
+    let data:BaseNodeData = {
       name: 'Repeater',
       title: 'Repeat <maxLoop>x',
       properties: {maxLoop: -1},
-    });
+    }
+    super(data, child);
 
     this.maxLoop = maxLoop;
   }
@@ -58,6 +60,7 @@ export default class Repeater extends Decorator {
     var status = SUCCESS;
 
     while (this.maxLoop < 0 || i < this.maxLoop) {
+      // @ts-ignore
       status = this.child._execute(tick);
 
       if (status == SUCCESS || status == FAILURE) {

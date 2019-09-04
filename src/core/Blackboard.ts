@@ -38,6 +38,8 @@
  **/
 
 export default class Blackboard {
+  private _baseMemory:any;
+  private _treeMemory:any;
 
   /**
    * Initialization method.
@@ -58,7 +60,7 @@ export default class Blackboard {
    * @return {Object} The tree memory.
    * @protected
    **/
-  _getTreeMemory(treeScope) {
+  _getTreeMemory(treeScope:string) {
     if (!this._treeMemory[treeScope]) {
       this._treeMemory[treeScope] = {
         'nodeMemory'     : {},
@@ -133,7 +135,7 @@ export default class Blackboard {
    *                           memory.
    * @param {String} nodeScope The node id if accessing the node memory.
    **/
-  set(key, value, treeScope, nodeScope) {
+  set(key:string, value:string, treeScope:string, nodeScope:string) {
     var memory = this._getMemory(treeScope, nodeScope);
     memory[key] = value;
   }
@@ -154,7 +156,7 @@ export default class Blackboard {
    * @param {String} nodeScope The node id if accessing the node memory.
    * @return {Object} The value stored or undefined.
    **/
-  get(key, treeScope, nodeScope) {
+  get(key:string, treeScope:string, nodeScope:string) {
     var memory = this._getMemory(treeScope, nodeScope);
     return memory[key];
   }

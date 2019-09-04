@@ -1,5 +1,6 @@
 import Decorator from '../core/Decorator';
-import {FAILURE, ERROR} from '../constants';
+import {FAILURE, ERROR, BaseNodeData} from '../constants';
+import BaseNode from '../core/BaseNode';
 
 /**
  * The MaxTime decorator limits the maximum time the node child can execute.
@@ -13,6 +14,7 @@ import {FAILURE, ERROR} from '../constants';
  **/
 
 export default class MaxTime extends Decorator {
+  public maxTime: any;
 
   /**
    * Creates an instance of MaxTime.
@@ -25,13 +27,13 @@ export default class MaxTime extends Decorator {
    * @param {BaseNode} params.child The child node.
    * @memberof MaxTime
    */
-  constructor({maxTime, child = null} = {}) {
-    super({
-      child,
+  constructor(maxTime:number = 0, child?:BaseNode) {
+    let data:BaseNodeData = {
       name: 'MaxTime',
       title: 'Max <maxTime>ms',
       properties: {maxTime: 0},
-    });
+    }
+    super(data, child);
 
     if (!maxTime) {
       throw 'maxTime parameter in MaxTime decorator is an obligatory parameter';

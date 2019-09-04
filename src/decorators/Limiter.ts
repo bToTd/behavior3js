@@ -1,5 +1,6 @@
 import Decorator from '../core/Decorator';
-import {FAILURE, SUCCESS, ERROR} from '../constants';
+import {FAILURE, SUCCESS, ERROR, BaseNodeData} from '../constants';
+import BaseNode from '../core/BaseNode';
 
 /**
  * This decorator limit the number of times its child can be called. After a
@@ -12,6 +13,7 @@ import {FAILURE, SUCCESS, ERROR} from '../constants';
  **/
 
 export default class Limiter extends Decorator {
+  public maxLoop: any;
 
   /**
    * Creates an instance of Limiter.
@@ -26,13 +28,13 @@ export default class Limiter extends Decorator {
    * @param {BaseNode} params.child The child node.
    * @memberof Limiter
    */
-  constructor({child = null, maxLoop} = {}) {
-    super({
-      child,
+  constructor(maxLoop:number, child?:BaseNode) {
+    let data:BaseNodeData = {
       name: 'Limiter',
       title: 'Limit <maxLoop> Activations',
       properties: {maxLoop: 1},
-    });
+    }
+    super(data, child);
 
     if (!maxLoop) {
       throw 'maxLoop parameter in Limiter decorator is an obligatory parameter';
@@ -64,7 +66,7 @@ export default class Limiter extends Decorator {
     var i = tick.blackboard.get('i', tick.tree.id, this.id);
 
     if (i < this.maxLoop) {
-      var status = this.child._execute(tick);
+      var status:any = this.child._execute(tick);
 
       if (status == SUCCESS || status == FAILURE)
         tick.blackboard.set('i', i+1, tick.tree.id, this.id);

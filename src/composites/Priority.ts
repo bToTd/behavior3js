@@ -1,5 +1,6 @@
 import Composite from '../core/Composite';
-import {FAILURE} from '../constants';
+import {FAILURE, BaseNodeData} from '../constants';
+import BaseNode from '../core/BaseNode';
 
 /**
  * Priority ticks its children sequentially until one of them returns
@@ -19,11 +20,11 @@ export default class Priority extends Composite {
    * @param {Array} params.children 
    * @memberof Priority
    */
-  constructor({children = []} = {}){
-    super({
-      name: 'Priority',
-      children
-    });
+  constructor(children:Array<BaseNode> = []){
+    let data:BaseNodeData = {
+      name: 'Priority'
+    }
+    super(data, children);
   }
 
   /**
@@ -34,7 +35,7 @@ export default class Priority extends Composite {
    **/
   tick(tick) {
     for (var i=0; i<this.children.length; i++) {
-      var status = this.children[i]._execute(tick);
+      var status:any = this.children[i]._execute(tick);
 
       if (status !== FAILURE) {
         return status;
