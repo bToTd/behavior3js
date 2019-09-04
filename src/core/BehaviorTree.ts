@@ -1,5 +1,5 @@
 import { createUUID } from '../b3.functions';
-import { COMPOSITE, DECORATOR } from '../constants';
+import { COMPOSITE, DECORATOR, BaseNodeData } from '../constants';
 import * as Decorators from '../decorators';
 import * as Composites from '../composites';
 import * as Actions from '../actions';
@@ -67,7 +67,24 @@ import Tick from './Tick';
  * @class BehaviorTree
  **/
 
+interface behaviorTreeData {
+  title?:string,
+  id?:string,
+  description: string,
+  properties: any,
+  root: any,
+  debug: any,
+  nodes: any,
+  custom_nodes: any
+}
+
 export default class BehaviorTree {
+  id: string;
+  title: string;
+  description: string;
+  properties: {};
+  root: any;
+  debug: any;
 
   /**
    * Initialization method.
@@ -213,7 +230,7 @@ export default class BehaviorTree {
    * @return {Object} A data object representing this tree.
    **/
   dump() {
-    var data = {};
+    var data:behaviorTreeData;
     var customNames = [];
 
     data.title = this.title;
@@ -229,7 +246,7 @@ export default class BehaviorTree {
     while (stack.length > 0) {
       var node = stack.pop();
 
-      var spec = {};
+      var spec:BaseNodeData;
       spec.id = node.id;
       spec.name = node.name;
       spec.title = node.title;
@@ -241,7 +258,7 @@ export default class BehaviorTree {
       var proto = (node.constructor && node.constructor.prototype);
       var nodeName = (proto && proto.name) || node.name;
       if (!Decorators[nodeName] && !Composites[nodeName] && !Actions[nodeName] && customNames.indexOf(nodeName) < 0) {
-        var subdata = {};
+        var subdata:BaseNodeData;
         subdata.name = nodeName;
         subdata.title = (proto && proto.title) || node.title;
         subdata.category = node.category;

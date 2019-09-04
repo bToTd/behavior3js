@@ -1,3 +1,5 @@
+import BaseNode from "./BaseNode";
+
 /**
  * A new Tick object is instantiated every tick by BehaviorTree. It is passed
  * as parameter to the nodes through the tree during the traversal.
@@ -21,8 +23,8 @@ export default class Tick {
   public debug: any;
   public target: any;
   public blackboard: any;
-  private _openNodes: any[];
-  private _nodeCount: number;
+  public _openNodes: Array<BaseNode>;
+  public _nodeCount: number;
 
   /**
    * Initialization method.

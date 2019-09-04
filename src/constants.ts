@@ -8,9 +8,13 @@ export const DECORATOR = 'decorator';
 export const ACTION = 'action';
 export const CONDITION = 'condition';
 export interface BaseNodeData {
+    children?: any[];
+    child?: any;
     category?:any, 
     name:string, 
     title?:string, 
     description?:any, 
-    properties?:any
+    properties?:any,
+    id?:string,
+    parameters?:any
   }
