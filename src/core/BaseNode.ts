@@ -1,5 +1,5 @@
 import {createUUID} from '../b3.functions';
-import {RUNNING} from '../constants';
+import {RUNNING, BaseNodeData} from '../constants';
 
 /**
  * The BaseNode class is used as super class to all nodes in BehaviorJS. It
@@ -22,16 +22,22 @@ import {RUNNING} from '../constants';
  * @module b3
  * @class BaseNode
  **/
-
 export default class BaseNode {
+  protected id:any;
+  protected category:any;
+  protected name:string;
+  protected title:string;
+  protected description:any;
+  protected properties:any;
+  public parameters:any;
 
   /**
    * Initialization method.
    * @method initialize
    * @constructor
    **/
-  constructor({category, name, title, description, properties} = {}) {
-
+  constructor(data:BaseNodeData) {
+    // @ts-ignore
     this.id = createUUID();
 
     /**
@@ -41,7 +47,7 @@ export default class BaseNode {
      * 
      * @member BaseNode#category
      **/
-    this.category = category || '';
+    this.category = data.category || '';
 
     /**
      * Node name. Must be a unique identifier,
@@ -58,14 +64,14 @@ export default class BaseNode {
      * @optional
      * @member BaseNode#title
      **/
-    this.title = title || this.name;
+    this.title = data.title || this.name;
 
     /**
      * Node description.
      * 
      * @member BaseNode#description
      */
-    this.description = description || '';
+    this.description = data.description || '';
 
     /**
      * A dictionary (key, value) describing the node properties. Useful for
@@ -75,7 +81,7 @@ export default class BaseNode {
      * @type {Object}
      * @readonly
      **/
-    this.properties = properties || {};
+    this.properties = data.properties || {};
 
     /**
      * A dictionary (key, value) describing the node parameters. Useful for
@@ -118,6 +124,7 @@ export default class BaseNode {
     var status = this._tick(tick);
 
     // CLOSE
+    // @ts-ignore
     if (status !== RUNNING) {
       this._close(tick);
     }

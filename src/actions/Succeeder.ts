@@ -1,5 +1,5 @@
 import Action from '../core/Action';
-import {SUCCESS} from '../constants';
+import {SUCCESS, BaseNodeData} from '../constants';
 
 /**
  * This action node returns `SUCCESS` always.
@@ -10,13 +10,14 @@ import {SUCCESS} from '../constants';
  **/
 
 export default class Succeeder extends Action {
-
   /**
    * Creates an instance of Succeeder.
    * @memberof Succeeder
    */
   constructor(){
-    super({name: 'Succeeder'});
+    let data:BaseNodeData;
+    data.name = "Succeeder"
+    super(data);
   }
 
   /**

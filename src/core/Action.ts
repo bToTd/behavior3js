@@ -1,5 +1,5 @@
-import BaseNode from '../core/BaseNode';
-import {ACTION} from '../constants';
+import BaseNode from './BaseNode';
+import {ACTION, BaseNodeData} from '../constants';
 
 /**
  * Action is the base class for all action nodes. Thus, if you want to create
@@ -30,13 +30,9 @@ export default class Action extends BaseNode {
    * @param {Object} options.properties 
    * @memberof Action
    */
-  constructor({name = 'Action', title, properties} = {}){
-    super({
-      category: ACTION,
-      name,
-      title,
-      properties,
-    });
+  constructor(data:BaseNodeData){
+    data.category = ACTION;
+    super(data);
   }
 
 };
